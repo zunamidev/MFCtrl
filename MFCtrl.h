@@ -20,7 +20,6 @@
 
 // Needed Libarys
 #include <cstdio>
-#include <cmath>
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -40,7 +39,9 @@ public:
     void setup(int rx, int tx, int node);
 
     // Setting Data
-    void setData(long sollValue);
+    string sendData(long sollValue);
+
+    string readData(long what);
 
     // Reading the informations from the asd
     // TODO: Reading the MAX232

@@ -18,15 +18,15 @@
 // Custom Library
 #include "MFCtrl.h"
 
-// Setting up the connection with the RX and TX pins
+// Setting up the connection with the RX and TX pins and define the Node
 void MFCtrl::setup(int rx, int tx, int node) {
     _tx = tx;
     _rx = rx;
     _node = node;
 }
 
-
-void MFCtrl::setData(long sollValue) {
+// Setting the data into the call
+string MFCtrl::sendData(long sollValue) {
     string call;
     // Preparing the call
     call = ":060" + to_string(_node) + "010121" + to_hex(sollValue) + "\r\n";
@@ -42,9 +42,13 @@ void MFCtrl::setData(long sollValue) {
         exit(2);
     }
 
-    _call = call;
+    return call;
+
+}
 
 
+string MFCtrl::readData(long what) {
+    return std::string();
 }
 
 
@@ -59,4 +63,5 @@ string MFCtrl::to_hex(long x) {
     stream << hex << x;
     return stream.str();
 }
+
 
