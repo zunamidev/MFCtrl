@@ -26,30 +26,39 @@ void MFCtrl::setup(int rx, int tx, int node) {
 }
 
 
-void MFCtrl::setData(int data, long sollValue) {
-    _sollValue = sollValue;
+void MFCtrl::setData(long sollValue) {
+    string call;
+    // Preparing the call
+    call = ":060" + to_string(_node) + "010121" + to_hex(sollValue) + "\r\n";
+
 
     if (sollValue >= 32000 || sollValue <= 0) {
         cout << "[Error] Soll Wert muss zwischen 0 und 32.000 sein.";
         exit(1);
     }
 
-    to_hex(_sollValue);
+    if (_node >= 9) {
+        cout << "[Error] Node Wert darf nicht größer als 9 sein.";
+        exit(2);
+    }
+
+    _call = call;
+
 
 }
 
 
 // Debugging
 void MFCtrl::getInfo() {
-    cout << _tx << " " << _rx << " " << _node << " " << _sollValue << endl;
-    cout << hex << _sollValue << endl;
+    cout << _tx << " " << _rx << " " << _node << " " << _call << endl;
 }
 
 // Helper functions
 string MFCtrl::to_hex(long x) {
-    std::stringstream s;
-    s << std::hex << x;
-    return s.str();
+    stringstream stream;
+    stringstream stream1;
+    stream << hex << x;
+    return stream.str();
 
 }
 

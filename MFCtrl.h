@@ -31,14 +31,16 @@ class MFCtrl {
 private:
     // Variabels
     unsigned int _tx, _rx, _node;
-    unsigned int _sollValue;
+    //unsigned int _sollValue;
+
+    string _call;
 
 public:
     // Setingup the connection with the RX and TX pins
     void setup(int rx, int tx, int node);
 
     // Setting Data
-    void setData(int data, long sollValue);
+    void setData(long sollValue);
 
     // Reading the informations from the asd
     // TODO: Reading the MAX232

@@ -19,7 +19,8 @@
 
 int main(int argc, const char * argv[]) {
     MFCtrl MF{};
-    MF.setup(12, 23, 15);
+    MF.setup(12, 23, 3);
+    MF.setData(16000);
     MF.getInfo();
 
     return 0;
