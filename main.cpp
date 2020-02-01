@@ -9,9 +9,9 @@
 #include "MFCtrl.h"
 
 int main(int argc, const char * argv[]) {
-    MFCtrl MF;
-    MF.setup(12, 23, 15, 16000);
+    MFCtrl MF{};
+    MF.setup(12, 23, 15);
     MF.getInfo();
-    std::cout << "Hello, World!\n";
+
     return 0;
 }
