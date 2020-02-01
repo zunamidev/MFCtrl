@@ -56,9 +56,7 @@ void MFCtrl::getInfo() {
 // Helper functions
 string MFCtrl::to_hex(long x) {
     stringstream stream;
-    stringstream stream1;
     stream << hex << x;
     return stream.str();
-
 }
 
