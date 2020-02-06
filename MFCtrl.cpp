@@ -10,8 +10,8 @@
  *   Unless required by applicable law or agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
  */
 
 
@@ -55,6 +55,7 @@ string MFCtrl::readData(long what) {
 // Debugging
 void MFCtrl::getInfo() {
     cout << _tx << " " << _rx << " " << _node << " " << _call << endl;
+    cout << response("123");
 }
 
 // Helper functions
@@ -62,6 +63,15 @@ string MFCtrl::to_hex(long x) {
     stringstream stream;
     stream << hex << x;
     return stream.str();
+}
+
+// TODO:
+bool MFCtrl::response(string resp) {
+
+    enum test {
+        a, b, c, d, e, f
+    };
+    return false;
 }
 
 
