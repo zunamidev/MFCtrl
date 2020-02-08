@@ -51,7 +51,10 @@ public:
     // Helper functions
     static string to_hex(long x);
 
-    static int to_dec(char *x);
+    float to_dec(char *x);
+
+    float HexStringToFloat(char *s);
+
 
     bool response(string resp);
 

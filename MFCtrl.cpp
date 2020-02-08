@@ -14,6 +14,13 @@
  *   limitations under the License.
  */
 
+/*
+ * TODO:
+ *  1. Error Handling
+ *  2. Reading Measure
+ *  3. Arduino Compatibility
+ *
+ */
 
 /* *
     00 kein Fehler
@@ -24,6 +31,7 @@
  * */
 
 // Custom Library
+#include <cmath>
 #include "MFCtrl.h"
 
 // Setting up the connection with the RX and TX pins and define the Node
@@ -39,6 +47,8 @@ string MFCtrl::sendData(long sollValue) {
     // Preparing the call
     call = ":060" + to_string(_node) + "010121" + to_hex(sollValue) + "\r\n";
 
+    // 06803401210120
+
 
     if (sollValue >= 32000 || sollValue <= 0) {
         cout << "[Error] Soll Wert muss zwischen 0 und 32.000 sein.";
@@ -48,6 +58,12 @@ string MFCtrl::sendData(long sollValue) {
     if (_node >= 9) {
         cout << "[Error] Node Wert darf nicht größer als 9 sein.";
         exit(2);
+    }
+
+    if (response(call) == 0) {
+        cout << "Keine Fehler!" << endl;
+    } else {
+        cout << "Error!" << endl;
     }
 
     return call;
@@ -64,8 +80,10 @@ string MFCtrl::readData(long process) {
 void MFCtrl::getInfo() {
     cout << _tx << " " << _rx << " " << _node << " " << _call << endl;
     cout << response("123") << endl;
-    char test[] = "68";
-    cout << to_dec(test);
+    char test[] = "459CFFAE";
+    cout << to_dec(test) << endl;
+
+    cout << HexStringToFloat(test) << endl;
 }
 
 // Helper functions
@@ -75,7 +93,7 @@ string MFCtrl::to_hex(long x) {
     return stream.str();
 }
 
-int MFCtrl::to_dec(char *hexVal) {
+float MFCtrl::to_dec(char *hexVal) {
     int len = strlen(hexVal);
 
     int base = 1;
@@ -95,6 +113,27 @@ int MFCtrl::to_dec(char *hexVal) {
     }
 
     return dec_val;
+}
+
+float MFCtrl::HexStringToFloat(char *s) {
+    if ((*s != '0') || ((*s != 'X') && (*s != 'x'))) {
+        return NAN;  // Not-a-number macro from math.h
+    }
+    float x = 0;
+    int ch;
+    while ((ch = *s++) != '\0') {
+        static const char HexDigit[] = "0123456789ABCDEFabcdef";
+        int i = 0;
+        while (1) {
+            if (HexDigit[i] == '\0') return NAN;
+            if (HexDigit[i] == ch) break;
+            i++;
+        }
+        if (i >= 16) i -= 6;
+        x *= 16;
+        x += i;
+    }
+    return x;
 }
 
 // TODO:
