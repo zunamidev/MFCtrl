@@ -13,10 +13,6 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  *
- *   style="background-image : url({% if section.settings.bg_breadcrumb != blank  %}
-              {{section.settings.bg_breadcrumb | img_url : 'master'}}
-              {% else %}//placehold.it/1920x510
-              {% endif %})">
  */
 
 
@@ -46,7 +42,7 @@ public:
     // Setting Data
     string sendData(long sollValue);
 
-    string readData(long what);
+    string readData(long process);
 
     // Reading the informations from the asd
     // TODO: Reading the MAX232
@@ -54,6 +50,8 @@ public:
 
     // Helper functions
     static string to_hex(long x);
+
+    static int to_dec(char *x);
 
     bool response(string resp);
 

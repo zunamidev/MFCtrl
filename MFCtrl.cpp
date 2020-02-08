@@ -15,6 +15,14 @@
  */
 
 
+/* *
+    00 kein Fehler
+    01 Prozess angefordert
+    02 Befehlsfehler
+    03 Prozessfehler
+    04 Parameterfehler
+ * */
+
 // Custom Library
 #include "MFCtrl.h"
 
@@ -47,7 +55,7 @@ string MFCtrl::sendData(long sollValue) {
 }
 
 
-string MFCtrl::readData(long what) {
+string MFCtrl::readData(long process) {
     return std::string();
 }
 
@@ -55,7 +63,9 @@ string MFCtrl::readData(long what) {
 // Debugging
 void MFCtrl::getInfo() {
     cout << _tx << " " << _rx << " " << _node << " " << _call << endl;
-    cout << response("123");
+    cout << response("123") << endl;
+    char test[] = "68";
+    cout << to_dec(test);
 }
 
 // Helper functions
@@ -65,13 +75,32 @@ string MFCtrl::to_hex(long x) {
     return stream.str();
 }
 
+int MFCtrl::to_dec(char *hexVal) {
+    int len = strlen(hexVal);
+
+    int base = 1;
+
+    int dec_val = 0;
+
+    for (int i = len - 1; i >= 0; i--) {
+        if (hexVal[i] >= '0' && hexVal[i] <= '9') {
+            dec_val += (hexVal[i] - 48) * base;
+
+            base = base * 16;
+        } else if (hexVal[i] >= 'A' && hexVal[i] <= 'F') {
+            dec_val += (hexVal[i] - 55) * base;
+
+            base = base * 16;
+        }
+    }
+
+    return dec_val;
+}
+
 // TODO:
 bool MFCtrl::response(string resp) {
-
-    enum test {
-        a, b, c, d, e, f
-    };
     return false;
 }
+
 
 
