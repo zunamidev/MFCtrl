@@ -21,6 +21,8 @@
 
 // Needed Libarys
 #include <cstdio>
+#include <cmath>
+#include <cstdint>
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -36,26 +38,24 @@ private:
     string _call;
 
 public:
-    // Setingup the connection with the RX and TX pins
+    // Setting the connection with the RX and TX pins
     void setup(int rx, int tx, int node);
 
     // Setting Data
     string sendData(long sollValue);
 
+    // Reading the informations from the MAX232
+    // TODO: Reading the Data
     string readData(long process);
-
-    // Reading the informations from the asd
-    // TODO: Reading the MAX232
-    void read();
 
     // Helper functions
     static string to_hex(long x);
 
-    float to_dec(char *x);
+    int to_dec(char *x);
 
-    float HexStringToFloat(char *s);
+    float to_float(char *x);
 
-
+    // Error Handling
     bool response(string resp);
 
     // Debugging

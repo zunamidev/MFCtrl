@@ -16,22 +16,12 @@
 
 /*
  * TODO:
- *  1. Error Handling
  *  2. Reading Measure
  *  3. Arduino Compatibility
  *
  */
 
-/* *
-    00 kein Fehler
-    01 Prozess angefordert
-    02 Befehlsfehler
-    03 Prozessfehler
-    04 Parameterfehler
- * */
-
 // Custom Library
-#include <cmath>
 #include "MFCtrl.h"
 
 // Setting up the connection with the RX and TX pins and define the Node
@@ -60,7 +50,7 @@ string MFCtrl::sendData(long sollValue) {
         exit(2);
     }
 
-    if (response(call) == 0) {
+    if (response(call) == 1) {
         cout << "Keine Fehler!" << endl;
     } else {
         cout << "Error!" << endl;
@@ -79,11 +69,11 @@ string MFCtrl::readData(long process) {
 // Debugging
 void MFCtrl::getInfo() {
     cout << _tx << " " << _rx << " " << _node << " " << _call << endl;
-    cout << response("123") << endl;
     char test[] = "459CFFAE";
-    cout << to_dec(test) << endl;
+    cout << to_float(test) << endl;
+    string test1 = ":0403000005\r\n";
+    cout << response(test1);
 
-    cout << HexStringToFloat(test) << endl;
 }
 
 // Helper functions
@@ -93,7 +83,7 @@ string MFCtrl::to_hex(long x) {
     return stream.str();
 }
 
-float MFCtrl::to_dec(char *hexVal) {
+int MFCtrl::to_dec(char *hexVal) {
     int len = strlen(hexVal);
 
     int base = 1;
@@ -115,31 +105,30 @@ float MFCtrl::to_dec(char *hexVal) {
     return dec_val;
 }
 
-float MFCtrl::HexStringToFloat(char *s) {
-    if ((*s != '0') || ((*s != 'X') && (*s != 'x'))) {
-        return NAN;  // Not-a-number macro from math.h
-    }
-    float x = 0;
-    int ch;
-    while ((ch = *s++) != '\0') {
-        static const char HexDigit[] = "0123456789ABCDEFabcdef";
-        int i = 0;
-        while (1) {
-            if (HexDigit[i] == '\0') return NAN;
-            if (HexDigit[i] == ch) break;
-            i++;
-        }
-        if (i >= 16) i -= 6;
-        x *= 16;
-        x += i;
-    }
-    return x;
+float MFCtrl::to_float(char *x) {
+    uint32_t num;
+    float f;
+    sscanf(x, "%x", &num);
+    f = *((float *) &num);
+    return f;
 }
 
-// TODO:
+// Error Handling
 bool MFCtrl::response(string resp) {
-    return false;
+    string response = resp.substr(5, 2);
+    switch (stoi(response)) {
+        case 00:
+            return true;
+        case 01:
+            return false;
+        case 02:
+            return false;
+        case 03:
+            return false;
+        case 04:
+            return false;
+        default:
+            return false;
+    }
 }
-
-
 
