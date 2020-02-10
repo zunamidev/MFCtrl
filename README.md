@@ -4,3 +4,4 @@
 
 ![alt text](https://github.com/zunamidev/lib/blob/master/Frame%201.png
  "Logo Title Text 1")
+![alt text](https://img.shields.io/badge/development-activ-brightgreen)
