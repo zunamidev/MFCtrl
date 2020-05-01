@@ -25,35 +25,35 @@
 #include "MFCtrl.h"
 
 // Setting up the connection with the RX and TX pins and define the Node
-void MFCtrl::setup(int rx, int tx, int node) {
+MFCtrl::MFCtrl(int rx, int tx, int node) {
     _tx = tx;
     _rx = rx;
     _node = node;
 }
 
 // Setting the data into the call
-string MFCtrl::sendData(long sollValue) {
-    string call;
+std::string MFCtrl::sendData(long sollValue) {
+    std::string call;
     // Preparing the call
-    call = ":060" + to_string(_node) + "010121" + to_hex(sollValue) + "\r\n";
+    call = ":060" + std::to_string(_node) + "010121" + toHex(sollValue) + "\r\n";
 
     // 06803401210120
 
 
     if (sollValue >= 32000 || sollValue <= 0) {
-        cout << "[Error] Soll Wert muss zwischen 0 und 32.000 sein.";
+        std::cout << "[Error] Soll Wert muss zwischen 0 und 32.000 sein.";
         exit(1);
     }
 
     if (_node >= 9) {
-        cout << "[Error] Node Wert darf nicht größer als 9 sein.";
+        std::cout << "[Error] Node Wert darf nicht größer als 9 sein.";
         exit(2);
     }
 
     if (response(call) == 1) {
-        cout << "Keine Fehler!" << endl;
+        std::cout << "Keine Fehler!" << std::endl;
     } else {
-        cout << "Error!" << endl;
+        std::cout << "Error!" << std::endl;
     }
 
     return call;
@@ -61,28 +61,28 @@ string MFCtrl::sendData(long sollValue) {
 }
 
 
-string MFCtrl::readData(long process) {
+std::string MFCtrl::readData(long process) {
     return std::string();
 }
 
 
 // Debugging
 void MFCtrl::getInfo() {
-    cout << _tx << " " << _rx << " " << _node << " " << _call << endl;
+    std::cout << _tx << " " << _rx << " " << _node << " " << _call << std::endl;
     char test[] = "459CFFAE";
-    cout << to_float(test) << endl;
-    string test1 = ":0403000005\r\n";
-    cout << response(test1);
+    std::cout << toFloat(test) << std::endl;
+    std::string test1 = ":0403000005\r\n";
+    std::cout << response(test1);
 }
 
 // Helper functions
-string MFCtrl::to_hex(long x) {
-    stringstream stream;
-    stream << hex << x;
+std::string MFCtrl::toHex(long x) {
+    std::stringstream stream;
+    stream << std::hex << x;
     return stream.str();
 }
 
-int MFCtrl::to_dec(char *hexVal) {
+int MFCtrl::toDec(char *hexVal) {
     int len = strlen(hexVal);
 
     int base = 1;
@@ -104,7 +104,7 @@ int MFCtrl::to_dec(char *hexVal) {
     return dec_val;
 }
 
-float MFCtrl::to_float(char *x) {
+float MFCtrl::toFloat(char *x) {
     uint32_t num;
     float f;
     sscanf(x, "%x", &num);
@@ -113,8 +113,8 @@ float MFCtrl::to_float(char *x) {
 }
 
 // Error Handling
-bool MFCtrl::response(string resp) {
-    string response = resp.substr(5, 2);
+bool MFCtrl::response(std::string resp) {
+    std::string response = resp.substr(5, 2);
     switch (stoi(response)) {
         case 00:
             return true;

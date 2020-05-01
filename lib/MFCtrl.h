@@ -27,36 +27,34 @@
 #include <sstream>
 #include <iostream>
 
-using namespace std;
-
 class MFCtrl {
 private:
     // Variabels
     unsigned int _tx, _rx, _node;
-    unsigned int _sollValue;
+    unsigned int _sollValue{};
 
-    string _call;
+    std::string_view _call;
 
 public:
     // Setting the connection with the RX and TX pins
-    void setup(int rx, int tx, int node);
+    MFCtrl(int rx, int tx, int node);
 
     // Setting Data
-    string sendData(long sollValue);
+    std::string sendData(long sollValue);
 
     // Reading the informations from the MAX232
     // TODO: Reading the Data
-    string readData(long process);
+    std::string readData(long process);
 
     // Helper functions
-    static string to_hex(long x);
+    static std::string toHex(long x);
 
-    int to_dec(char *x);
+    int toDec(char *x);
 
-    float to_float(char *x);
+    float toFloat(char *x);
 
     // Error Handling
-    bool response(string resp);
+    bool response(std::string resp);
 
     // Debugging
     void getInfo();
