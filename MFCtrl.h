@@ -33,7 +33,7 @@ class MFCtrl {
 private:
     // Variabels
     unsigned int _tx, _rx, _node;
-    //unsigned int _sollValue;
+    unsigned int _sollValue;
 
     string _call;
 

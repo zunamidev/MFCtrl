@@ -73,7 +73,6 @@ void MFCtrl::getInfo() {
     cout << to_float(test) << endl;
     string test1 = ":0403000005\r\n";
     cout << response(test1);
-
 }
 
 // Helper functions
