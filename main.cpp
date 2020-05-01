@@ -15,12 +15,12 @@
  */
 
 #include <iostream>
-#include "MFCtrl.h"
+#include "lib/MFCtrl.h"
 
 int main(int argc, const char * argv[]) {
-    MFCtrl MF{};
-    MF.setup(12, 23, 3);
-    cout << MF.sendData(16000);
+    MFCtrl MF(12, 23, 3);
+    std::cout << MF.sendData(16000);
+    std::cout << MF.readData(16000);
     MF.getInfo();
 
     return 0;
